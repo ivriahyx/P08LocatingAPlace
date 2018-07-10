@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 
-
                 int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -63,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     //  granted yet
                     return;
                 }
-
-
 
                 LatLng poi_north = new LatLng(1.454406, 103.831408);
                 LatLng poi_central = new LatLng(1.297662,103.847486);
@@ -167,9 +164,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
       }else if(item.equals("Central")){
           LatLng poi_central = new LatLng(1.297662,103.847486);
           map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,15));
-      }else{
+      }else if(item.equals("East")){
           LatLng poi_east = new LatLng(1.367169,103.928059);
           map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,15));
+      }else{
+          LatLng poi_sg = new LatLng(1.352083, 103.819836);
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_sg,
+                  11));
       }
     }
     public void onNothingSelected(AdapterView<?> arg0) {
