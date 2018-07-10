@@ -9,8 +9,12 @@ import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,9 +27,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button btn1, btn2, btn3;
+    //Button btn1, btn2, btn3;
+    Spinner spinner;
     private GoogleMap map;
 
     @Override
@@ -109,10 +114,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        btn1 = (Button) findViewById(R.id.btn1);
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn3 = (Button) findViewById(R.id.btn3);
 
+            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+            spinner.setOnItemSelectedListener(this);
+    // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.array, android.R.layout.simple_spinner_item);
+    // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    // Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
+
+
+        /*
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +155,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+        String item = arg0.getItemAtPosition(position).toString();
+      if (item.equals("North")){
+          LatLng poi_north = new LatLng(1.454406, 103.831408);
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,15));
+      }else if(item.equals("Central")){
+          LatLng poi_central = new LatLng(1.297662,103.847486);
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,15));
+      }else{
+          LatLng poi_east = new LatLng(1.367169,103.928059);
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,15));
+      }
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -162,4 +196,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
